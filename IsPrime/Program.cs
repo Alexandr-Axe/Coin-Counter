@@ -11,12 +11,12 @@ namespace IsPrime
     {
         static void Main()
         {
-            Pocitadlo Kasa = new Pocitadlo();
+            Pocitadlo Kasa = new Pocitadlo(); //Instance třídy Pocitadlo, která umí spočítat počet mincí
             Console.Write($"Jaká částka byla uhrazena? : ");
             string Castka = Console.ReadLine();
             try
             {
-                Kasa.PocitaniMinci(Convert.ToInt32(Castka));
+                Kasa.PocitaniMinci(Convert.ToInt32(Castka)); //Počítání mincí pomocí metody PocitaniMinci s částkou, která je převedená ze stringu na int
                 Console.WriteLine(Kasa);
                 Console.ReadKey();
             }
@@ -30,14 +30,21 @@ namespace IsPrime
     }
     class Pocitadlo
     {
-        readonly int[] Mince = new int[] { -1, -1, -1, -1, -1, -1 };
-        public void PocitaniMinci(int ZaplacenaCastka)
+        /*Mince[0] = Padesátikoruny
+          Mince[1] = Dvacetikoruny
+          Mince[2] = Desetikoruny
+          Mince[3] = Pětikoruny
+          Mince[4] = Dvoukoruny
+          Mince[5] = Jednokoruny
+         */
+        readonly int[] Mince = new int[] { -1, -1, -1, -1, -1, -1 }; //Pole mincí, každá mince má nastaveno -1, protože na začátku nemáme žádné mince
+        public void PocitaniMinci(int ZaplacenaCastka) //Metoda na počítání mincí
         {
-            int Zbytek;
-            void Calculate(int Hodnota)
+            int Zbytek; //Pokud je zbytek nula, znamená to, že máme perfektní počet mincí a program může skončit
+            void Calculate(int Hodnota) //Metoda, která dělá život jednodušší, tady je celá logika
             {
-                Zbytek = ZaplacenaCastka % Hodnota;
-                switch (Hodnota)
+                Zbytek = ZaplacenaCastka % Hodnota; //Zjištění, jestli máme zbytek po dělení
+                switch (Hodnota) //Pro každou minci je nyní nastavena hodnota (pokud zaplatíme 100, tak se do Mince[0] uloží 2)
                 {
                     case 50:
                         Mince[0] = (ZaplacenaCastka - Zbytek) / Hodnota;
@@ -58,15 +65,16 @@ namespace IsPrime
                         Mince[5] = (ZaplacenaCastka - Zbytek) / Hodnota;
                         break;
                 }
-                if (Zbytek != 0) PocitaniMinci(Zbytek);
-                else 
+                if (Zbytek != 0) PocitaniMinci(Zbytek); //Pokud máme nějaký zbytek peněz, program pomocí rekurze pokračuje dál v počítání
+                else
                 {
                     for (int i = 0; i < Mince.Length; i++)
                     {
-                        if (Mince[i] == -1) Mince[i] = 0;
+                        if (Mince[i] == -1) Mince[i] = 0; //Když nemáme zbytek, můžeme ukončit program. Pokud zaplatíme 100 a vrátí se nám 2 padesátikoruny, ostatní mince budou mít hodnotu -1
                     }
                 }
             }
+            //Pokud máme neprobádanou minci, vypočítáme její počet
             if (Mince[0] == -1) Calculate(50);
             else if (Mince[1] == -1) Calculate(20);
             else if (Mince[2] == -1) Calculate(10);
