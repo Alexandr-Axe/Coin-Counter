@@ -12,8 +12,24 @@ namespace IsPrime
         static void Main(string[] args)
         {
             Pocitadlo Kasa = new Pocitadlo();
-            Kasa.PocitaniMinci(100);
-            Console.WriteLine(Kasa);
+            while (true)
+            {
+                Console.Write($"Jakou částku jste uhradil? : ");
+                string Castka = Console.ReadLine();
+                try
+                {
+                    Kasa.PocitaniMinci(Convert.ToInt32(Castka));
+                    Console.WriteLine(Kasa);
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+                catch (Exception err)
+                {
+                    Console.WriteLine(err.Message);
+                    Console.ReadKey();
+                    Console.Clear();
+                }
+            }
         }
         
     }
